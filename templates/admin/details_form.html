@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Edit Details</title>
+</head>
+<body>
+    <h2>{% if uuid %}Edit{% else %}Add{% endif %} Details</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'details_list' %}">Back to List</a>
+</body>
+</html>

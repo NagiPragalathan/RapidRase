@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  html, body {
+      width: 100%;
+      height: 100%;
+      /* background-color: #000; */
+      overflow: hidden;
+  }
+  iframe {
+      width: 100%;
+      height: 100%;
+      cursor: default; /* This will apply the default cursor to the iframe */
+      transform: scale(1.2);
+  }
+  #canvas3d {
+      cursor: default;
+  }
+  .uplayer {
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      /* background-color: rgba(0, 0, 0, 0.3); */
+  }
+
+  .uplayer h1 {
+  color: aliceblue;
+  position: relative;
+  bottom: 30px;
+  font-size: 30px;
+  font-weight: 400;
+  color:#000000;
+  }
+
+  .uplayer .logo h1{
+  display: inline-block;
+  }
+
+  .uplayer .logo{
+  margin: 30px 30px;
+  }
+  .game-end {
+      display: flex;
+      justify-content: end;
+      align-items: end;
+      color: aliceblue;
+      text-decoration: none;
+      flex-direction: column;
+      position: relative;
+      bottom: 80px;
+  }
+
+  ul  li{
+      list-style: none;
+      padding: 5px 5px;
+      font-size: 30px;
+      font-weight: 400;
+      color:#000000;
+  }
+
+  .ball-img{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      bottom: -7%;
+  }
+
+
+  .ball-i{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .social-icons {
+      display: flex;  
+      justify-content: end;
+      align-items: end;
+      position: relative;
+      top:100px;
+      right: 10px;
+    }
+
+  .social-icons .icon a{
+      padding: 5px 5px;  
+    }
+
+
+  .circle{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #D3B1EE;
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    margin-top: 5px;
+    box-shadow: 0px 0px 20px 6px #d3b1ee;
+  }
+  @keyframes floating {
+    from { transform: translate(0,  0px); }
+    65%  { transform: translate(0, -15px); }
+    to   { transform: translate(0, -0px); }    
+}
+.message, .message1, .message4, .message2 {
+  display: none;
+  position: absolute;
+  top: 26%;
+  left: 62.29%;
+  transform: translateX(-50%);
+  background-color: #333; /* Change background color to light black */
+  color: #fff; /* Change text color to white */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Add down arrow */
+.message::after, .message1::after, .message4::after, .message2::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent; /* Triangle color and direction */
+}
+.ball-i:hover .message {
+  display: block;
+}
+  .yline{
+    height: 142px;
+    background: #5f5f5f;
+    width: 4px;
+    margin-top: -9px;
+  }
+  .poll{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ball-img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .hex{
+    font-size: 22px;
+    z-index: 9;
+  }
+  .cursor {
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+    border-radius: 50%;
+    background: transparent;
+    pointer-events: none;
+    z-index: 111;
+    border: 1px solid #000;
+    transition: all 0.2s ease-out;
+    animation: moveCursor1 .5s infinite alternate;
+}
+
+.expand {
+    background: transparent;
+    animation: moveCursor2 .5s forwards;
+    border: 1px solid #000;
+    background: #8282824a;
+    box-shadow: 0px 0px 20px 0px black;
+}
+.popup1{
+  display: none;
+  background: aquamarine;
+  position: fixed;
+  z-index: 99;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+@keyframes moveCursor1 {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(.8);
+    }
+}
+
+@keyframes moveCursor2 {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+</style>
+<body>
+   <!-- end cursor follower settings -->
+    <div class="uplayer">
+      <!-- cursor settings -->
+        <!-- the div for cursor layer -->
+        <div class="cursor"></div>
+        <!-- the div for upper layer -->
+        <div class="logo">
+            <img src="logo.png" alt="">
+            <h1>Rapid rush</h1>
+            <ul class="game-end">
+                <li>GAME</li>
+                <li>MARKETPLACE</li>
+                <li>WHITEPAPER</li>
+            </ul>
+
+        </div>
+            
+        <div class="ball-img">
+          <div class="message1" style="left: 12.49%;">Click for more details..!</div>
+          <div class="ball-i" onmouseout="hideMessage(1)">
+              <div class="poll">
+                  <div class="circle" onmouseover="showMessage(1)" onclick="showpopup(1)"></div>
+                  <div class="hex">⬣</div>
+                  <div class="yline"></div>
+              </div>
+              <div class="popup1">
+                <div class="heading">
+                  <h1>3D Gallery</h1>
+                </div>
+                
+                <div class="container">
+                  <div class="prev">
+                    <i class="fas fa-chevron-circle-left"></i>
+                  </div>
+                
+                  <div class="gallery">
+                    <div class="card position1">
+                      <img src="https://i.pinimg.com/originals/74/7b/65/747b658ec4ce3c9e7e6eaf9088c982a3.jpg" alt="image">
+                    </div>
+                    <div class="card position2">
+                      <img src="https://th.bing.com/th/id/OIP.0MTLRn5Hx7S0ALF8dABRgQHaHa?pid=Api&rs=1" alt="image">
+                    </div>
+                    <div class="card position3">
+                      <img src="https://th.bing.com/th/id/OIP.Cqln60J_AkI-3hhCFlvQxAHaHa?pid=Api&rs=1" alt="image">
+                    </div>
+                    <div class="card position4">
+                      <img src="https://i.pinimg.com/originals/2a/d3/26/2ad32645c4a1971498fcd08276ee8e34.jpg" alt="image">
+                    </div>
+                    <div class="card position5">
+                      <img src="https://66.media.tumblr.com/99287015d5ce743b84da4c5c3c28305f/tumblr_pg4s9qQcmX1w2ad4p_540.jpg" alt="image">
+                    </div>
+                  </div>
+                
+                  <div class="next">
+                    <i class="fas fa-chevron-circle-right"></i>
+                  </div>
+                </div>
+              </div>
+          </div>
+            <div class="message2" style="left: 37.5%;">Click for more details..!</div>
+            <div class="ball-i" onmouseout="hideMessage(2)">
+                <div class="poll">
+                    <div class="circle" onmouseover="showMessage(2)"></div>
+                    <div class="hex">⬣</div>
+                    <div class="yline"></div>
+                </div>
+            </div>
+            <div class="message">Click for more details..!</div>
+            <div class="ball-i" onmouseout="hideMessage('')">
+                <div class="poll">
+                    <div class="circle" onmouseover="showMessage('')"></div>
+                    <div class="hex">⬣</div>
+                    <div class="yline"></div>
+                </div>
+            </div>
+            <div class="message4" style="left: 87.4%; width: 155px;">Click for more details..!</div>
+            <div class="ball-i" onmouseout="hideMessage(4)">
+                <div class="poll">
+                    <div class="circle" onmouseover="showMessage(4)"></div>
+                    <div class="hex">⬣</div>
+                    <div class="yline"></div>
+                </div>
+            </div>
+            
+        </div>
+       
+  <div class="social-icons">
+      <div class="icon">
+          <a href="#"><img src="TG 1.png" alt=""></a>
+          <a href="#"><img src="twitter X 1.png" alt=""><a>
+          <a href="#"><img src="email 1.png" alt=""></a>
+          <a href="#"><img src="YouTube 1.png" alt=""></a>
+      </div>
+  </div>
+
+    </div>
+    
+    <iframe src='https://my.spline.design/untitled-7ff7f731fe33d6656f98ca719dd117ed/' style="cursor: default;" frameborder='0' width='100%' height='100%'></iframe>
+</body>
+<script>
+  const cursor = document.querySelector('.cursor');
+
+  document.addEventListener('mousemove', e => {
+      cursor.setAttribute("style", "top: " + (e.pageY - 10) + "px; left: " + (e.pageX - 10) + "px;" + "box-shadow: 0px 0px 20px 3px #4a4a4a;")
+  });
+
+  document.addEventListener('click', e => {
+      cursor.classList.add("expand");
+      setTimeout(() => {
+          cursor.classList.remove("expand");
+      }, 500);
+  });
+
+  function showMessage(id) {
+    document.querySelector('.message'+id).style.display = 'block';
+}
+
+function hideMessage(id) {
+    document.querySelector('.message'+id).style.display = 'none';
+}
+function showpopup(id){
+  console.log('.popup'+id)
+  document.querySelector('.popup'+id).style.display = 'flex';
+}
+
+function hidepopup(id){
+  document.querySelector('.popup'+id).style.display = 'none';
+}
+
+</script>
+
+</html>

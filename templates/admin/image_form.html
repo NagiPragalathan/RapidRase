@@ -1,0 +1,18 @@
+<!-- image_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Images</title>
+</head>
+<body>
+    <h2>Upload Images for Detail {{ detail.uuid }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- This input allows multiple file selections -->
+        <input type="file" name="images" multiple required>
+        <button type="submit">Upload</button>
+    </form>
+    <a href="{% url 'details_list' %}">Back to List</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details List</title>
+</head>
+<body>
+    <h2>Details List</h2>
+    <a href="{% url 'details_create_edit' %}">Add New Detail</a>
+    <ul>
+        {% for detail in details %}
+            <li>
+                {{ detail.description }} - {{ detail.points }} points
+                <a href="{% url 'detail_view' uuid=detail.uuid %}">detail_view</a>
+                <a href="{% url 'details_create_edit' uuid=detail.uuid %}">Edit</a>
+                <a href="{% url 'details_delete' uuid=detail.uuid %}" onclick="return confirm('Are you sure?');">Delete</a>
+                <a href="{% url 'image_upload' details_uuid=detail.uuid %}">Upload Image</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

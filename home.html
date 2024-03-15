@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    overflow: hidden;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    cursor: default; /* This will apply the default cursor to the iframe */
+}
+#canvas3d {
+    cursor: default;
+}
+.uplayer {
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+</style>
+<body>
+    <!-- cursor settings -->
+    <span id="cursorFollower" class="cursorFollower"></span>
+    <span id="cursorFollowerDot" class="cursorFollowerDot">
+    <!-- end cursor follower settings -->
+    <div class="uplayer">
+        <!-- the div for upper layer -->
+    </div>
+    <iframe src='https://my.spline.design/untitled-7ff7f731fe33d6656f98ca719dd117ed/' style="cursor: default;" frameborder='0' width='100%' height='100%'></iframe>
+</body>
+<script>
+    var xp = 0,
+  mouseX = 0;
+var yp = 0,
+  mouseY = 0;
+var xpDot = 0,
+  mouseX = 0;
+var ypDot = 0,
+  mouseY = 0;
+
+const cursorFollower = document.querySelector(".cursorFollower");
+const cursorFollowerDot = document.querySelector(".cursorFollowerDot");
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.pageX;
+  mouseY = e.pageY;
+});
+
+setInterval(function () {
+  xp += (mouseX - xp) / 15;
+  yp += (mouseY - yp) / 15;
+
+  cursorFollower.style.left = xp + "px";
+  cursorFollower.style.top = yp + "px";
+}, 20);
+
+setInterval(function () {
+  xpDot += (mouseX - xpDot) / 25;
+  ypDot += (mouseY - ypDot) / 25;
+
+  cursorFollowerDot.style.left = xpDot + "px";
+  cursorFollowerDot.style.top = ypDot + "px";
+}, 20);
+</script>
+</html>

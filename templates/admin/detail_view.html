@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ detail.description }}</title>
+</head>
+<body>
+    <h1>{{ detail.description }}</h1>
+    <p>Points: {{ detail.points }}</p>
+    <p>Last Updated: {{ detail.last_updated }}</p>
+    
+    <!-- Image upload form -->
+    <h2>Upload New Image</h2>
+    <form action="{% url 'image_upload' details_uuid=detail.uuid %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="images" multiple required>
+        <button type="submit">Upload Images</button>
+    </form>
+    
+    <h2>Images</h2>
+    {% if detail.images.all %}
+        <div>
+            {% for image in detail.images.all %}
+                <div>
+                    <img src="{{ image.image.url }}" alt="Image for {{ detail.description }}" style="width: 200px; height: auto;">
+                    <!-- Delete link for each image -->
+                    <a href="{% url 'image_delete' image.id %}">Delete</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No images uploaded.</p>
+    {% endif %}
+    <a href="{% url 'details_list' %}">Back to Details List</a>
+</body>
+</html>
